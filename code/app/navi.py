@@ -11,6 +11,6 @@ client= mqtt.Client()
 client.on_connect= on_connect
 client.on_publish = on_publish
 
-client.connect("172.20.185.147", 1883, 60)
+client.connect("192.168.0.100", 1883, 60)
 
 client.loop_forever()
