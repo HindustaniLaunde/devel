@@ -1,3 +1,0 @@
-: log file created
-Program to update time into a file added. Now it uses sponge to add data to a file. It stores a data to a temp file and then writes it to the file, so that other program file can use it.
-date : log file created
