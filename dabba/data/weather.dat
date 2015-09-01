@@ -1,1 +1,4 @@
-{"coord":{"lon":80.35,"lat":26.47},"weather":[{"id":721,"main":"Haze","description":"haze","icon":"50d"}],"base":"stations","main":{"temp":308.15,"pressure":1003,"humidity":67,"temp_min":308.15,"temp_max":308.15},"visibility":5000,"wind":{"speed":2.26,"deg":97.003},"clouds":{"all":75},"dt":1440828000,"sys":{"type":1,"id":7817,"message":0.0059,"country":"IN","sunrise":1440807414,"sunset":1440853315},"id":1267995,"name":"Kanpur","cod":200}
+{"coord":{"lon":80.35  ,  "lat":26.47}  ,  "weather":[{"id":800  ,  "main":"Clear"  ,  "description":"sky is clear"  ,  "icon":"02d"}]  ,  "base":"cmc stations"  ,  "main":{"temp":301.464  ,  "pressure":999.93  ,  "humidity":84  ,  "temp_min":301.464  ,  "temp_max":301.464  ,  "sea_level":1014.2  ,  "grnd_level":999.93}  ,  "wind":{"speed":4.11  ,  "deg":272.506}  ,  "clouds":{"all":8}  ,  "dt":1441080869  ,  "sys":{"message":0.0092  ,  "country":"IN"  ,  "sunrise":1441066689  ,  "sunset":1441112333}  ,  "id":1267995  ,  "name":"Kanpur"  ,  "cod":200}
+
+
+

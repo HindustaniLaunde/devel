@@ -21,7 +21,7 @@ def words(fileobj):
             yield word
 
 
-with open("weather.dat") as wordfile:
+with open("../../data/weather.dat") as wordfile:
     wordgen = words(wordfile)
     for word in wordgen:
         if word in searchterms:   # searchterms should be a set() to make this fast
