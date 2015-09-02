@@ -1,3 +1,5 @@
+#!/usr/bin/python
+
 #import paho.mqtt.client as mqtt
 #hi
 #def on_connect (client, userdata, flags, rc):
