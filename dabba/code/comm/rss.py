@@ -1,9 +1,7 @@
+#!/usr/bin/python
+
 def rss():
-	import subprocess
-	bashcommand = "rsstail -u  http://feeds.reuters.com/reuters/INtopNews >> ../../data/rss"
-	
-	process = subprocess.Popen (bashcommand.split(), stdout = subprocess.PIPE)
-	output = process.communicate()[0]
+	import os
+	bashcommand = "rsstail -u http://feeds.reuters.com/reuters/INtopNews > ../../data/rss"
+	os.system(bashcommand)
 	return
-	
-rss()
