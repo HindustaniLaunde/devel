@@ -1,5 +1,16 @@
-import paho.mqtt.publish as publish
+import paho.mqtt.client as mqtt
+def on_connect (client, userdata, flags, rc):
+	print("Connected with result code"+str(rc))
+	client.publish("/topic/0", "hello World", 0, False)
 
-msgs = [{'topic':"paho/test/multiple", 'payload':"multiple 1"},
-    ("paho/test/multiple", "multiple 2", 0, False)]
-publish.multiple(msgs, hostname="iot.eclipse.org")
+def on_publish(client, userdata, msg):
+	print(msg.topic+" "+str(msg.payload))
+
+client= mqtt.Client()
+
+client.on_connect= on_connect
+client.on_publish = on_publish
+
+client.connect("192.168.0.100", 1883, 60)
+
+client.loop_forever()
