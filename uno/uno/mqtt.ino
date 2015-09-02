@@ -1,11 +1,19 @@
 #include <espduino.h>
 #include <mqtt.h>
 
+#define MAX_TOPIC_SIZE 10
+#define MAX_DATA_SIZE 10
+
+#define NUM_TOPICS 4
+
+
+#define SSID "What's in a name??"
+#define PASSWORD "tesLA999"
+
 ESP esp(&Serial, 4);
 MQTT mqtt(&esp);
 
 boolean wifiConnected = false;
-
 void wifiCb(void* response)
 {
   uint32_t status;
@@ -26,10 +34,10 @@ void wifiCb(void* response)
 
 void mqttConnected(void* response)
 {
-  mqtt.subscribe("/topic/0");
-  mqtt.subscribe("/topic/1");
-  mqtt.subscribe("/topic/2");
-  mqtt.publish("/topic/0", "data0");
+  uint8_t i;
+  for(i=0;i!=NUM_TOPICS;++i)
+    mqtt.subscribe("/topic/"+i);
+  mqtt.publish("/topic/connected", "connected");
   digitalWrite(13,LOW);
 
 }
@@ -40,10 +48,10 @@ void mqttDisconnected(void* response)
 void mqttData(void* response)
 {
   RESPONSE res(response);
-
-  String topic = res.popString();
-  
-  String data = res.popString();
+  uint8_t topic[MAX_TOPIC_SIZE];
+  uint8_t data[MAX_DATA_SIZE];
+  res.popArgs(topic,MAX_TOPIC_SIZE);
+  res.popArgs(data,MAX_DATA_SIZE);
 }
 void mqttPublished(void* response)
 {
@@ -69,7 +77,11 @@ void initMQTT(void)
       delay(1000);
     }
   }
-
+  mqtt.subscribe("/topic/0");
+  mqtt.subscribe("/topic/1");
+  mqtt.subscribe("/topic/2");
+  mqtt.publish("/topic/0", "data0");
+  digitalWrite(13,LOW);
   mqtt.lwt("/lwt", "offline");
 
   /*setup mqtt events */
@@ -81,6 +93,6 @@ void initMQTT(void)
   /*setup wifi*/
   esp.wifiCb.attach(&wifiCb);
 
-  esp.wifiConnect("What's in a name??", "tesLA999");
+  esp.wifiConnect(SSID, PASSWORD);
 }
 

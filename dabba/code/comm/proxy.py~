@@ -1,6 +1,5 @@
 #import sys
 #sys.path.insert(0, '~/home/honeypc/devel/dabba/data')
-#Stores Kanpur's weather in weather.dat as of now.
 import urllib2
 
 proxy = urllib2.ProxyHandler({'http': 'http://amanabt:IITKaat@vsnlproxy.iitk.ac.in:3128'})
