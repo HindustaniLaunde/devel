@@ -1,5 +1,5 @@
 #!/usr/bin/python
-def scrape ():
+def get_weather():
 	import urllib2
 	f = open ("../../data/current_city.dat", "r")
 	city = f.readline()
@@ -17,4 +17,3 @@ def scrape ():
 	f.close
 	return
 
-scrape()

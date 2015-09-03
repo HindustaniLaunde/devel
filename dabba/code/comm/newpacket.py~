@@ -1,6 +1,6 @@
 #!/usr/bin/python
-# decription is added at the end of the other data.
-data = ["temp", "humidity"] # other data which are to extreacted and stored in csv format in the file 'packet.dat'
+
+data = ["temp", "humidity"]
 def SHAS ():
 			
 	import fileinput, re

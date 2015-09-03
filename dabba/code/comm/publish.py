@@ -1,6 +1,9 @@
+#TODO: Get time from the internet and send it to the Arduino.
+
 import paho.mqtt.client as mqtt
 import time
 import sys
+import weather
 reload(sys)
 sys.setdefaultencoding("ISO-8859-1")
 def on_connect (client, userdata, flags, rc):
@@ -16,7 +19,8 @@ def on_message(client, userdata, msg):
     return
 
 def loop():
-	client.publish("/topic/0",x)
+	weather.get_weather()
+	client.publish("/topic/1",x)
 	f=open("../../data/rss","r")
 	for line in f:
 		print line
