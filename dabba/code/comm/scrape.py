@@ -1,7 +1,5 @@
 #!/usr/bin/python
 
-#import sys
-#sys.path.insert(0, '~/home/honeypc/devel/dabba/data')
 def scrape ():
 	import urllib2
 
@@ -16,4 +14,3 @@ def scrape ():
 	f.write (report)
 	f.close
 	return
-#print report
