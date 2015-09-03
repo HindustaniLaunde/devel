@@ -1,13 +1,14 @@
 #include <glcd.h>
 #include "fonts/allFonts.h"
-#include "bitmaps/Arduino.h"
-#include "bitmaps/Electrochoc_bw.h"
+#include "bitmaps/allBitmaps.h"
 
+#include<Time.h>
 const int binPins[] = {50,51,52,53};  // sets BINARY OUTPUT pins, (MIDI Channel selection via 4-bit binary output).
 const int navButtonUp = 0;          // sets NAVIGATION UP pin.
-const int navButtonDown = 1;        // sets NAVIGATION DOWN pin.
+const int navButtonDown =1;        // sets NAVIGATION DOWN pin.
 const int menuButton = 2;           // sets MENU pin...
 const int exitButton = 3;           // sets EXIT pin....
+
 
 unsigned int menuVal = 0;           // sets inital MENU values - used to determine menu states.
 unsigned int subMenuVal = 0;        // sets inital SUBMENU values = used to determine submenu states.
@@ -17,45 +18,39 @@ unsigned int dispVal = 0;           // sets DISPLAY Value, (used for adjusting d
 int btnTime = 300;                  // minimum delay between button presses or while button is held down.
 
 //Sizes for analog clock pointers
-#define RSEC 28
-#define RMIN 20
-#define RHOUR 15
-
-char x, y;	
-unsigned char hour = random(0,12);
-unsigned char min  = random(0,60);
-unsigned char sec  = random(0,60);
-unsigned char day  = 3 ;
-unsigned char date  = 1;
-unsigned char month  = 9;
-unsigned char year  = 15;
+#define RSEC 19
+#define RMIN 15
+#define RHOUR 10
+#define ClockCenterX 25
+char x, y;
+	
+unsigned char dy  = 5;
 
 void setup()
 {
+  setTime(12,11,00,3,9,15);
   GLCD.Init(NON_INVERTED);                   
-  GLCD.ClearScreen();                        
+                         
   GLCD.SelectFont(System5x7);
-  BootScreen();  
-  for (int index = 0; index < 4; index++)    // sets all BINARY output pins as OUTPUT. The hi
+  //BootScreen();  
+  for (int index = 0; index < 4; index++)    // sets all BINARY output pins as OUTPUT
   {
     pinMode(binPins[index], OUTPUT);
   }
-  pinMode(navButtonUp, INPUT);              //
+  pinMode(navButtonUp, INPUT);            
   digitalWrite(navButtonUp, LOW);           
   
-  pinMode(navButtonDown, INPUT);            //
+  pinMode(navButtonDown, INPUT);          
   digitalWrite(navButtonDown, LOW);         
    
-  pinMode(menuButton, INPUT);               //
+  pinMode(menuButton, INPUT);             
   digitalWrite(menuButton, LOW);            
   
-  pinMode(exitButton, INPUT);               //
+  pinMode(exitButton, INPUT);             
   digitalWrite(exitButton, LOW);            
    
-  mainProgram();                            // initalize MAIN SCREEN...
+ // mainProgram();                            // initalize MAIN SCREEN...
 }
-
-
 
 void loop() // check button states/menu values before performing any functions
 {
@@ -65,7 +60,7 @@ void loop() // check button states/menu values before performing any functions
   }
   if (menuVal == 1 && subMenuVal <= 4) // MAIN MENU
   {
-    menuProgramButtonState();         
+   // menuProgramButtonState();         
   }
   if (menuVal == 2)                    // SYSTEM RESET
   {
@@ -75,76 +70,85 @@ void loop() // check button states/menu values before performing any functions
 //  {
 //    dispProgramButtonState();
 //  }
-  if (menuVal ==3 )                    // SYSTEM SETTINGS
+  if (menuVal ==4 )                    // SYSTEM SETTINGS
   {
    systemSettingsButtonState();
   } 
-  if (menuVal == 4)                    // SOFTWARE VERSION
+  if (menuVal == 5)                    // SOFTWARE VERSION
   {
     aboutSystemButtonState();
   }
+
+  DisplayClock();
+  
 }
-//////////////////////////////////////////////////////////////////////////////////
-//////////////////////////////////////////////////////////////////////////////////
 
-
-// this runs the main program screen, shows current MIDI channel, (updates based on "mainProgramButtonState()"), MIDI CC information, and MIDI in/out activity.
-
-void mainProgram()
-{ 
-        GLCD.SelectFont(System5x7);
-    
-        GLCD.DrawLine(0,52,95,52); // "MENU" text
-        GLCD.CursorToXY(2,55); 
-        GLCD.Puts("MENU");
-  
-        GLCD.DrawLine(96,0,96,127);
-  
-        GLCD.DrawLine(64,0,64,63,BLACK);
+void DisplayClock(){
+        GLCD.ClearScreen();
+        
+        mainProgram();
+        
+        GLCD.DrawLine(54,0,54,63,BLACK);
+        
 //Digital Clock
-        GLCD.SelectFont(Verdana24, BLACK);
-	GLCD.GotoXY(65,0);	
+        GLCD.SelectFont(fixednums8x16, BLACK);
+	GLCD.GotoXY(56,0);	
         //Hour
-	if (hour < 10)
+	if (hour() < 10)
 		GLCD.print('0');
-	GLCD.print(hour);
+	GLCD.print(hour());
 	//Minute
 	GLCD.print(':');
-	if (min < 10)
+	if (minute() < 10)
 		GLCD.print('0');
-	GLCD.print(min);
+	GLCD.print(minute());
 	//Seconds
 	GLCD.print(':');
-	if (sec < 10)
+	if (second() < 10)
 		GLCD.print('0');
-	GLCD.print(sec);
+	GLCD.print(second());
 				
 //Analog clock
-	GLCD.DrawCircle(32,32,30,BLACK);
+        
+	GLCD.DrawCircle(ClockCenterX,ClockCenterX,20,BLACK);
 	//Second hand
-	x = RSEC * sin(sec*PI/30);
-	y = RSEC * cos(sec*PI/30);
-	GLCD.DrawLine(32,32,32+x,32-y, BLACK);
+	x = RSEC * sin(second()*PI/30);
+	y = RSEC * cos(second()*PI/30);
+	GLCD.DrawLine(ClockCenterX,ClockCenterX,ClockCenterX+x,ClockCenterX-y, BLACK);
 	//Minute hand
-	x = RMIN * sin(min*PI/30);
-	y = RMIN * cos(min*PI/30);
-	GLCD.DrawLine(32,32,32+x,32-y, BLACK);
+	x = RMIN * sin(minute()*PI/30);
+	y = RMIN * cos(minute()*PI/30);
+	GLCD.DrawLine(ClockCenterX,ClockCenterX,ClockCenterX+x,ClockCenterX-y, BLACK);
 	//Hour hand
-	x = RHOUR * sin((hour>11?hour-11:hour)*PI/6);
-	y = RHOUR * cos((hour>11?hour-11:hour)*PI/6);
-	GLCD.DrawLine(32,32,32+x,32-y, BLACK);
+	x = RHOUR * sin((hour()>11?hour()-12:hour())*PI/6);
+	y = RHOUR * cos((hour()>11?hour()-12:hour())*PI/6);
+	GLCD.DrawLine(ClockCenterX,ClockCenterX,ClockCenterX+x,ClockCenterX-y, BLACK);
+        
+        
 //Clock Over....
 //Alarm Section
-	GLCD.DrawRoundRect(65, 28, 52, 30, 10, BLACK); 
-	GLCD.GotoXY(75,40);
-	GLCD.print("Alarm:");	
-	GLCD.print("To Do:");
-//Week Day, Day/Month/Year
-	GLCD.GotoXY(38,25);
+GLCD.SelectFont(System5x7);
+	//GLCD.DrawRoundRect(65, 28, 52, 30, 10, BLACK); 
+	GLCD.GotoXY(65,40);
+	GLCD.print("AL:");
+        GLCD.GotoXY(65,48);	
+	GLCD.print("TD:");
+//Week dy, dy/mon/yr
+	GLCD.GotoXY(65,18);
 	GLCD.SelectFont(System5x7, BLACK);
-	
-//Day of Week
-	switch(day){
+	//Date Section
+	if(day()<10) GLCD.print("0");
+	GLCD.print(day());//date
+	GLCD.print("/");
+	if(month()<10) GLCD.print("0");
+	GLCD.print(month());//mon
+	GLCD.print("/");
+	if(year()<10) GLCD.print("0");
+	GLCD.print(year()); //yr 
+GLCD.DrawLine(54,36,127,36,BLACK);
+GLCD.GotoXY(65,28);
+//dy of Week
+	switch(dy){
 		case 1:
 			GLCD.print("SUN");
 			break;
@@ -165,35 +169,36 @@ void mainProgram()
 			break;
 		default:
 			GLCD.print("SAT");
-	}
-	GLCD.print(" ");
-//Date Section
-	if(date<10) GLCD.print("0");
-	GLCD.print(date);//date
-	GLCD.print("/");
-	if(month<10) GLCD.print("0");
-	GLCD.print(month);//month
-	GLCD.print("/20");
-	if(year<10) GLCD.print("0");
-	GLCD.print(year); //year  
+	} 
+delay(1000);
 }
-/////////////////////////////////////////////////////////////////////////////////////////
-/////////////////////////////////////////////////////////////////////////////////////////
 
+// this runs the main program screen, shows current MIDI channel, (updates based on "mainProgramButtonState()"), MIDI CC information, and MIDI in/out activity.
 
+void mainProgram()
+{ 
+        GLCD.SelectFont(System5x7);
+        GLCD.FillRect(0,54,54,8,BLACK);  // "MENU" text
+        GLCD.CursorToXY(2,55); 
+        GLCD.print("MENU");
+//       GLCD.DefineArea(54,54,127,63);
+//        GLCD.CursorToXY(2,56);
+//        GLCD.print("ABCDEFGHIJKLMNOPQRSTUVWXYZ*%ABCDEFGHIJKLMNOPQRSTUVWXYZ");
+}
 
 // this program shows main menu screen, and selectable items based on up or down button selection within the menuButtonState() program.
-
 void mainMenuProgram()
 { 
+  GLCD.ClearScreen();
+  GLCD.SelectFont(System5x7);
   GLCD.CursorToXY(2,2);
-  GLCD.Puts("  SYSTEM RESET");
+  GLCD.Puts("  RESTART CLOCK");
   GLCD.CursorToXY(2,11);
-  GLCD.Puts("  Button");
+  GLCD.Puts("  WEATHER");
   GLCD.CursorToXY(2,20);
   GLCD.Puts("  Button 1");
   GLCD.CursorToXY(2,29);
-  GLCD.Puts("  Software Version");
+  GLCD.Puts("  ABOUT US");
   
   GLCD.DrawLine(0,52,127,52);
   GLCD.CursorToXY(2,55);
@@ -206,17 +211,17 @@ void mainMenuProgram()
   if (subMenuVal == 1) 
   {
     GLCD.CursorToXY(2,2);
-    GLCD.Puts("->SYSTEM RESET");
+    GLCD.Puts("->RESTART CLOCK");
     GLCD.CursorToXY(2,11);
-    GLCD.Puts("  Button");
+    GLCD.Puts("  WEATHER");
   }
   
   if (subMenuVal == 2)
   {
     GLCD.CursorToXY(2,2);
-    GLCD.Puts("  SYSTEM RESET");
+    GLCD.Puts("  RESTART CLOCK");
     GLCD.CursorToXY(2,11);
-    GLCD.Puts("->Button");
+    GLCD.Puts("->WEATHER");
     GLCD.CursorToXY(2,20);
     GLCD.Puts("  Button 1");
   }
@@ -224,11 +229,11 @@ void mainMenuProgram()
   if (subMenuVal == 3)
   {
     GLCD.CursorToXY(2,11);
-    GLCD.Puts("  Button");
+    GLCD.Puts("  WEATHER");
     GLCD.CursorToXY(2,20);
     GLCD.Puts("->Button 1");
     GLCD.CursorToXY(2,29);
-    GLCD.Puts("  Software Version");
+    GLCD.Puts("  ABOUT US");
   }
   
   if (subMenuVal == 4)
@@ -236,7 +241,7 @@ void mainMenuProgram()
     GLCD.CursorToXY(2,20);
     GLCD.Puts("  Button 1");
     GLCD.CursorToXY(2,29);
-    GLCD.Puts("->Software Version");
+    GLCD.Puts("->ABOUT US");
   }
 }
 
@@ -624,62 +629,28 @@ void setBinPins(int bin1, int bin2, int bin4, int bin8)
 
 void BootScreen(){
   GLCD.ClearScreen(); 
-  GLCD.DrawRoundRect(0,0,64,128, 10, BLACK);  
+  //GLCD.DrawRoundRect(0,0,64,128, 10, BLACK);  
   GLCD.SelectFont(System5x7);
   
   GLCD.DrawBitmap(Arduino, 0,0, BLACK);
   delay(1000);
-  GLCD.ClearScreen();
-  GLCD.DrawRoundRect(0,0,64,128, 10, BLACK); 
-  GLCD.DrawBitmap(Electrochoc_bw, 0,0, BLACK);
-  delay(1000);
   
   GLCD.ClearScreen();
-  GLCD.DrawRoundRect(0,0,64,128, 10, BLACK); 
   GLCD.GotoXY(5,1);
-  GLCD.Puts("Team Electro Presents   ");
+  GLCD.Puts("Team Electro \n Presents...");
   GLCD.GotoXY(30,35);
-  GLCD.print("*");
-  delay(500);
-  GLCD.print("**");
-  delay(1000);
+  for (int i = 0; i < 15; ++i) 
+  {
+    delay(250);
+    GLCD.print("#");
+  }
   
   GLCD.ClearScreen();
-  GLCD.DrawRoundRect(0,0,64,128, 10, BLACK); 
-  GLCD.GotoXY(5,1);
-  GLCD.Puts("Team Electro Presents.  ");
-  GLCD.GotoXY(30,35);
-  GLCD.print("***");
+  //GLCD.DrawRoundRect(0,0,64,128, 10, BLACK); 
+  GLCD.GotoXY(10,1);
+  GLCD.Puts("\n An IOT Clock ");
   delay(500);
-  GLCD.print("****");
-  delay(1000);
-  
-  GLCD.ClearScreen();
-  GLCD.DrawRoundRect(0,0,64,128, 10, BLACK); 
-  GLCD.GotoXY(5,1);
-  GLCD.Puts("Team Electro Presents.. ");
-  GLCD.GotoXY(30,35);
-  GLCD.print("*****");
-  delay(500);
-  GLCD.print("******");
-  delay(1000);
-  
-  GLCD.ClearScreen();
-  GLCD.DrawRoundRect(0,0,64,128, 10, BLACK); 
-  GLCD.GotoXY(5,1);
-  GLCD.Puts("Team Electro Presents...");
-  GLCD.GotoXY(30,35);
-  GLCD.print("*******");
-  delay(500);
-  GLCD.print("********");
-  delay(1000);
-  
-  GLCD.ClearScreen();
-  GLCD.DrawRoundRect(0,0,64,128, 10, BLACK); 
-  GLCD.GotoXY(5,1);
-  GLCD.Puts("An IOT Clock ");
-  delay(500);
-  GLCD.GotoXY(15,1);
+  GLCD.GotoXY(30,1);
   GLCD.Puts("Based on Arduino and Espduino.. ");
   delay(1000);
   
