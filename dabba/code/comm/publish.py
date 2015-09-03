@@ -1,5 +1,8 @@
 import paho.mqtt.client as mqtt
 import time
+import sys
+reload(sys)
+sys.setdefaultencoding("ISO-8859-1")
 def on_connect (client, userdata, flags, rc):
 	print("Connected with result code"+str(rc))
 	client.publish("/topic/0", "hello World", 0, False)
@@ -13,24 +16,27 @@ def on_message(client, userdata, msg):
     return
 
 def loop():
+	client.publish("/topic/0",x)
 	f=open("../../data/rss","r")
-	lines= f.readlines()
+	for line in f:
+		print line
+		#client.publish("/topic/0",line)
 	f.close()
 	f=open("../../data/rss","w")
 	f.close()
-	for line in lines:
-		print line
+	
 
 client= mqtt.Client()
 
 client.on_connect = on_connect
-client.on_publish = on_publish
+#client.on_publish = on_publish
 client.on_message = on_message
-
 client.connect("192.168.0.108", 1883, 60)
-
+client.subscribe("/topic/0");
+x=0
 client.loop_start()
 while True:
+	x +=1
 	loop()
 	time.sleep(10);
 client.loop_end()
