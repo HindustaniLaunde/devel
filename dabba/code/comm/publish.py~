@@ -4,8 +4,6 @@ import paho.mqtt.client as mqtt
 import time
 import sys
 import weather
-import newpacket
-
 reload(sys)
 sys.setdefaultencoding("ISO-8859-1")
 def on_connect (client, userdata, flags, rc):
@@ -22,15 +20,6 @@ def on_message(client, userdata, msg):
 
 def loop():
 	weather.get_weather()
-	newpacket.packet()
-	f=open("../../data/packet.dat","r")
-	lines = f.readlines();
-	weatherData=lines[0].split(",")
-	lon=weatherData[0]
-	lat=weatherData[1]
-	getTime(lat,lon)
-	f.close()
-		
 	client.publish("/topic/1",x)
 	f=open("../../data/rss","r")
 	for line in f:

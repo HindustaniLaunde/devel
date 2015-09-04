@@ -67,6 +67,7 @@ def packet ():
 	c = f.read(1)
 	a = ''
 
+packet()
 	while c != '$':
 		if c == ":":
 			c = f.read (1)
@@ -87,5 +88,5 @@ def packet ():
 	packet.write (a)
 	return
 
-packet()
+#packet()
 

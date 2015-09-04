@@ -11,9 +11,8 @@ br.addheaders=[("User-agent","Mozilla/5.0 (Windows NT 6.3; WOW64; Trident/7.0; r
 f = open ("../../data/current_city.dat", "r")
 city = f.readline()
 f.close()
-city.replace(" ","-")
 
-time_table=br.retrieve("http://www.timeanddate.com/worldclock/india/"+city)
+time_table=br.retrieve("http://www.timeanddate.com/worldclock/india/kanpur")
 fil=open(time_table[0],"r")
 html=fil.read()
 

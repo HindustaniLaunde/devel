@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TimeZoneResponse>
+ <status>OK</status>
+ <raw_offset>19800.0000000</raw_offset>
+ <dst_offset>0.0000000</dst_offset>
+ <time_zone_id>Asia/Calcutta</time_zone_id>
+ <time_zone_name>India Standard Time</time_zone_name>
+</TimeZoneResponse>
