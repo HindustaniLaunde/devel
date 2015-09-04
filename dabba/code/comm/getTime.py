@@ -34,8 +34,8 @@ def getTime(lat,lon):
 	data = re.search(r"\d+(\.\d+)?", line1)
 	offset = float(data.group(0))
 	import datetime
-	current_time = datetime.datetime.fromtimestamp(int(timestamp + offset)).strftime('%Y-%m-%d %H:%M:%S')
-	print current_time
+	current_time = datetime.datetime.fromtimestamp(int(timestamp + offset)).strftime('%Y,%m,%d,%H,%M,%S')
+#	print current_time
 	return current_time
 
-getTime("25.25","87")
+print getTime("25.25","87")

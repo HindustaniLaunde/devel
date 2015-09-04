@@ -85,7 +85,8 @@ def packet ():
 	packet = open ("../../data/packet.dat", 'w')
 
 	packet.write (a)
-	return
+	type(a)
+	return a
 
-packet()
+
 
