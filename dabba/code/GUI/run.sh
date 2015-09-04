@@ -1,3 +1,3 @@
 #!/bin/bash
-cd ~/devel/
-python gui.py
+cd ~/devel/dabba/code/GUI/
+python ~/devel/dabba/code/GUI/gui.py

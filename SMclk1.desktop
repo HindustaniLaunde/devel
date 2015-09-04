@@ -1,0 +1,6 @@
+[Desktop Entry]
+Type=Application
+Name=SMClk
+Exec=~/devel/dabba/code/GUI
+Icon=~/devel/clock-time.png
+Terminal=false
