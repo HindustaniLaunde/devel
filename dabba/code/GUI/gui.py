@@ -2,7 +2,7 @@ import easygui
 
 def reminder_gui():
 	#*****************************************************************************#
-	msg = "Enter your personal information"
+	msg = "Enter Data for Reminder"
 	title = "SmartClock v1.0"
 	fieldNames = ["Hour","Minute","Second","Day (in DD)", "Month (in MM)", "Year ( in YYYY)", "Remind me to"]
 	fieldValues = []  # we start with blanks for the values
@@ -15,13 +15,17 @@ def reminder_gui():
 				errmsg = errmsg + ('"%s" is a required field.' % fieldNames[i])
 		if errmsg == "": break # no problems found
 		fieldValues = easygui.multenterbox(errmsg, title, fieldNames, fieldValues)
+
 	st = ''
 	if fieldValues == None:
-		return ''
+		return 0
+	
 	for value in fieldValues:
-		st += value
-		st += ':'
-	return st
+		st += value + ":"
+	f = open ("../../data/reminder.txt", "w")
+	f.write (st+'\n')
+	f.close
+	return 1
 
 #*****************************************************************************#
 #*****************************************************************************#
@@ -48,18 +52,8 @@ while True:
 	#*****************************************************************************#
 	
 	if reply == set_reminder:
-		msg = "Reminder!"
-		title = "Reminder"
-		default = "Enter Reminder Text"
 		#reply = easygui.enterbox(msg, title, default, strip = True)
-		reply = reminder_gui()
-		if reply:
-			f = open ("../../data/reminder.txt", "a")
-			f.write (reply+'\n')
-			f.close
-			continue
-		
-		else: continue
+		reminder_gui()
 	
 	#*****************************************************************************#
 	
@@ -85,7 +79,7 @@ while True:
 			f.close
 			continue
 		
-		else: continue
+		#else: continue
 	
 	#*****************************************************************************#
 	

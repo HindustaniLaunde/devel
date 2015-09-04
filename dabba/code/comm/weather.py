@@ -1,4 +1,6 @@
 #!/usr/bin/python
+
+#import newpacket
 def get_weather():
 	import urllib2
 	f = open ("../../data/current_city.dat", "r")
@@ -15,5 +17,8 @@ def get_weather():
 	f = open ("../../data/weather.dat", "w")
 	f.write (report)
 	f.close
-	return
+#	print newpacket.packet()
+	return report
+
+
 
