@@ -41,4 +41,3 @@ int check_reminder (void)
 		}
 	}
 }
-		

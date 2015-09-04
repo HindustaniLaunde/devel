@@ -1,0 +1,6 @@
+[Desktop Entry]
+Type=Application
+Name=SMClk
+Exec=/home/honeypc/devel/run.sh
+Icon=/home/honeypc/devel/clock-time.png
+Terminal=false
