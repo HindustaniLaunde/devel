@@ -43,7 +43,7 @@ news = "News"
 close = "Close"
 choices = [set_reminder, todo, news, close]
 while True:
-	reply = easygui.buttonbox(msg, title = "Smart Clock", choices=choices, image = "mauryans.gif")
+	reply = easygui.buttonbox(msg, title = "Smart Clock", choices=choices, image = "./mauryans.gif")
 	
 	#*****************************************************************************#
 	
