@@ -11,7 +11,7 @@ class rss:
 		import os
 		#bashcommand = "echo Aman | sponge ../../data/rss"
 		print "rss Thread running"
-		bashcommand = "rsstail -P -u http://www.thehindu.com/?service=rss -i 30 > ../../data/rss"
+		bashcommand = "rsstail -P -u http://feeds.reuters.com/reuters/INtopNews -i 30 > ../../data/rss"
 		os.system(bashcommand)
 		return
 

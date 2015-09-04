@@ -1,6 +1,6 @@
 #!/usr/bin/python
-
-data = ["temp", "humidity", "name"]
+# decription is added at the end of the other data.
+data = ["temp", "humidity"] # other data which are to extreacted and stored in csv format in the file 'packet.dat'
 def SHAS ():
 			
 	import fileinput, re
@@ -15,7 +15,24 @@ def SHAS ():
 			for  match in data:
 				if match+"\"" in word:
 					packet.write (word + "\n")
-
+	report = open ("../../data/weather.dat", "r")
+	for line in report:
+		i=0;
+		list=line.split()
+		size=len(list)
+		while i < size:
+			if "description"+"\"" in list[i]:
+				packet.write(list[i] + " ")
+				i +=1
+				while True:
+					if "\"" not in word:
+						packet.write(list[i] + " ")
+						i +=1
+					else:
+						packet.write(list[i] + "\n")
+						break
+				break
+			i += 1			
 	return
 
 
@@ -43,8 +60,6 @@ def packet ():
 	f.seek (0)
 	c = f.read(1)
 	a = ''
-	type (a)
-	type (c)
 	while c != '$':
 		if c == ":":
 			c = f.read (1)
@@ -56,7 +71,7 @@ def packet ():
 		if (c == '$'):
 			break
 		c = f.read (1)
-	print a
+	#print a
 
 	f.close
 
@@ -64,3 +79,6 @@ def packet ():
 
 	packet.write (a)
 	return
+
+packet()
+
