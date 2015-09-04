@@ -55,7 +55,7 @@ while True:
 		reply = reminder_gui()
 		if reply:
 			f = open ("../../data/reminder.txt", "a")
-			f.write (reply+'\n')
+			f.write (reply)
 			f.close
 			continue
 		

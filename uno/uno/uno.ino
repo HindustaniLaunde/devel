@@ -8,7 +8,7 @@ extern MQTT mqtt;
 void setup()
 {
  initMQTT();
- //mqtt.subscribe("/topic/0");
+ mqtt.subscribe("/topic/1");
 }
 
 void loop() {
