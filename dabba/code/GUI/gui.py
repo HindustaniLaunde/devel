@@ -36,14 +36,14 @@ def todo_template():
 #*****************************************************************************#
 
 
-msg   = "Team Electro Welcomes You!"
+msg   = "Welcome!"
 set_reminder = "Set Reminder"
 todo = "Add To-Do"
 news = "News"
 close = "Close"
 choices = [set_reminder, todo, news, close]
 while True:
-	reply = easygui.buttonbox(msg, title = "Smart Clock", choices=choices, image = "DBTech_Digital_Clock_Green.jpg")
+	reply = easygui.buttonbox(msg, title = "Smart Clock", choices=choices, image = "mauryans.jpg")
 	
 	#*****************************************************************************#
 	
