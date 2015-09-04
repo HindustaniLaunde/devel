@@ -1,0 +1,6 @@
+[Desktop Entry]
+Type=Application
+Name=SMClk
+GenericName=Smart Clock (Mauryans)
+Exec=~/devel/dabba/code/GUI/run.sh
+Icon=~/devel/clock-time.png
