@@ -7,7 +7,7 @@ def get_weather():
 	city = f.readline()
 	f.close()
 	#print 	'http://api.openweathermap.org/data/2.5/weather?q='+city
-	proxy = urllib2.ProxyHandler({'http': 'http://amanabt:IITKaat@vsnlproxy.iitk.ac.in:3128'})
+	proxy = urllib2.ProxyHandler({'http': 'http://username:password@proxy server:port'})
 	auth = urllib2.HTTPBasicAuthHandler()
 	opener = urllib2.build_opener(proxy, auth, urllib2.HTTPHandler)
 	urllib2.install_opener(opener)
