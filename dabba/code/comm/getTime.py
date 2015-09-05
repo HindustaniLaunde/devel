@@ -1,7 +1,7 @@
 #https://maps.googleapis.com/maps/api/timezone/xml?location=39.60,-119.68&timestamp=1331161200&key=AIzaSyC0fpj5-IdgdfMRiSOpggo49Jv0xlel1Sw
 def getTime(lat,lon):
 	import urllib2
-	proxy = urllib2.ProxyHandler({'http': 'http://amanabt:IITKaat@vsnlproxy.iitk.ac.in:3128'})
+	proxy = urllib2.ProxyHandler({'http': 'http://username:password@proxyserver:port'})
 	auth = urllib2.HTTPBasicAuthHandler()
 	opener = urllib2.build_opener(proxy, auth, urllib2.HTTPHandler)
 	urllib2.install_opener(opener)
